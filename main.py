@@ -110,7 +110,7 @@ class Inori:
                 except:
                     continue
 
-            return all_servers
+        return all_servers
 
 
     ##########################################################################
