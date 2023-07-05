@@ -1,4 +1,7 @@
+from __future__ import annotations
+
 from concurrent.futures import ThreadPoolExecutor
+
 from socket import (
     socket,
     AF_INET,
@@ -21,18 +24,18 @@ class Scanner:
     }
     
 
-    def __init__(self: object, addr: str = '127.0.0.1') -> None:
+    def __init__(self: Scanner, addr: str = '127.0.0.1') -> None:
         self.results: list = []
         self._addr:   str  = addr
 
 
     @property
-    def addr(self: object) -> str:
+    def addr(self: Scanner) -> str:
         return self._addr
     
 
     @addr.setter
-    def addr(self: object, addr: str) -> None:        
+    def addr(self: Scanner, addr: str) -> None:        
         if not isinstance(addr, str):
             raise TypeError
         
@@ -42,7 +45,7 @@ class Scanner:
         self._addr: str = addr
 
 
-    def get_results(self: object) -> list:
+    def get_results(self: Scanner) -> list:
         self.results.clear()
 
         with ThreadPoolExecutor(max_workers=800) as executor:
@@ -50,7 +53,7 @@ class Scanner:
                 executor.submit(self.__connect, port)
 
 
-    def __connect(self: object, port: int) -> None:
+    def __connect(self: Scanner, port: int) -> None:
     
         with socket(AF_INET, SOCK_STREAM) as sock:
         
@@ -63,7 +66,7 @@ class Scanner:
                 pass
                 
 if __name__ == '__main__':
-    handler: object = Scanner()
+    handler: Scanner = Scanner()
     while 1:
         print(f'{Colors.LIGHTPINK}Scanning for services...{Colors.WHITE}')
         handler.addr: str = input(f'{Colors.PINK}ADDR:{Colors.WHITE} ')
