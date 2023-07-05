@@ -1,0 +1,8 @@
+root:root
+root:admin
+root:botnet
+root:password
+admin:password
+admin:pass
+mirai:password
+root:pass
