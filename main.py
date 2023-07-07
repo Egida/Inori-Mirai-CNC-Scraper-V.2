@@ -86,12 +86,12 @@ class Inori:
                     # NOTE: and hint for the key words without parsing
                     # NOTE: (some items may not be arranged in the right order)
                     line_str: str = ','.join(line)
-                    if (len(line) != 0) and tuple(tag for tag in TAGS if tag in line_str):
+                    if len(line) != 0 and tuple(tag for tag in TAGS if tag in line_str):
                         ip:   str = str(line).split('/')[2]
                         arch: str = f'{str(line).split("/")[3]}/{str(line).split("/")[4]}'.split("',")[0]
                             
                         if ip.count('.') == 3:
-                            if not ip in cache:
+                            if ip not in cache:
                                 cache.append(ip)
                                     
                                 if ':' in ip:
@@ -105,7 +105,7 @@ class Inori:
                                         'arch': arch
                                     }
                                         
-                                if not data in all_servers:
+                                if data not in all_servers:
                                     all_servers.append(data)
                 except:
                     continue
@@ -135,10 +135,8 @@ class Inori:
         """
 
         '''Proper cycle system.'''
-        while True:
+        while self.ip_list:
             # NOTE: List empty? kill thread.
-            if not self.ip_list:
-                break
 
             # NOTE: cycle through entire list.
             for cnc_server in self.ip_list:
