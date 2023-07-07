@@ -9,6 +9,8 @@ After a successful login, it dumps the all the databases, specifically the users
 
 - Also kills Mana V4.1 based Mirai CNC sources.
 
+![Screenshot](screenshot.png)
+
 ## ⭐ Improvements compared to V.1:
 ```bash
 • Removed config file (Now requires CLI args).
