@@ -126,7 +126,6 @@ class Inori:
             [executor.submit(self.execution) for _ in range(self.threads)]
 
 
-
     def execution(self: Inori) -> None:
         """
         Thread that cycles through the list
@@ -168,7 +167,7 @@ class Inori:
                         
             try:
                 # NOTE: Attempt to login SQL server.
-                with connect(user = username, password = password, host = cnc_server['ip'], connect_timeout = 5) as conn:
+                with connect(user = username, password = password, host = cnc_server['ip'], connect_timeout = 5, write_timeout = 5, read_timeout = 5) as conn:
                     database_lists: list = []
                     # NOTE: If log in was a success then update the 
                     # NOTE: cnc_server dictionary with login credentials used.
