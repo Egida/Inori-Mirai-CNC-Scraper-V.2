@@ -7,14 +7,19 @@ BANNER: str = f"""\033[38;2;255;100;255m╦\033[38;2;255;96;240m╔\033[38;2;255
 \033[38;2;255;255;255m"{MANA} \033[38;2;255;100;255mOuma \033[38;2;255;255;255misnt so adorable."
 """
 
-SQL_FILTER: tuple = (
+SQL_ERRORS: tuple[str, ...] = (
+    'Can\'t connect to MySQL server',
+    'Lost connection to MySQL server'
+)
+
+SQL_FILTER: tuple[str, ...] = (
     'information_schema',
     'performance_schema',
     'Z_README_TO_RECOVER',
     'mysql'
 )
 
-TAGS: tuple = (
+TAGS: tuple[str, ...] = (
     'mirai', 
     'x86', 
     'bins.sh', 
