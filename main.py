@@ -32,6 +32,9 @@ class Inori:
     def __init__(self: Inori, threads: int, killer_enabled: bool) -> None:
         self.threads: int = threads
 
+        if not self.threads:
+            raise RuntimeError('please use the arg (-t <number of threads>)')
+        
         self.combos:  str  = open('lib/creds.txt').readlines()
         self.kill_enabled: bool = killer_enabled
         self.killer: ManaKiller = ManaKiller()
@@ -61,6 +64,8 @@ class Inori:
                 dump(file_data, database_file, indent = 4)
 
                 return True
+            
+            return False
 
 
 
@@ -219,7 +224,7 @@ class Inori:
                     self.killer.addr = cnc_server['ip']
                     # NOTE: Detect whether the CNC is a Mana V4 source.
                     if self.killer.verify_mana(cnc_server['arch']):
-                        print(f'{Colors.LIME}• {MANA} {Colors.WHITE}based source detected!')
+                        print(f'{Colors.LIME}• {MANA} {Colors.WHITE}source detected!')
                                 
                         if self.kill_enabled:
                             # NOTE: Kill the CNC.
@@ -233,11 +238,10 @@ class Inori:
                                 
                     # NOTE: Update local results database (database.json).    
                     if self.update_db(cnc_server):
-                        print(f'{Colors.LIME}• {Colors.WHITE}Query added to local results database.')
+                        print(f'{Colors.LIME}• {Colors.WHITE}Query added to local results database.\n')
                     else:
-                        print(f'{Colors.RED}• {Colors.WHITE}Query already in local results database.')
+                        print(f'{Colors.RED}• {Colors.WHITE}Query already in local results database.\n')
                                     
-                    print()
                     return
             except:
                 continue
