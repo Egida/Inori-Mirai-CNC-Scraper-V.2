@@ -243,7 +243,12 @@ class Inori:
                         print(f'{Colors.RED}• {Colors.WHITE}Query already in local results database.\n')
                                     
                     return
-            except:
+            except Exception as e:
+                # NOTE: Prevent multiple attempts of trying different
+                # NOTE: credentials on a server that isnt online.
+                if 'Can\'t connect to MySQL server' in e.args[1]:
+                    break
+
                 continue
 
 
