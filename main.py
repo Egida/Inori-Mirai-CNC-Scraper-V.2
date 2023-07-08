@@ -16,10 +16,11 @@ from argparse import(
 )
 
 from lib.constants import(
+    SQL_FILTER,
+    SQL_ERRORS,
     BANNER, 
     INORI,
     MANA,
-    SQL_FILTER,
     TAGS
 )
 
@@ -167,7 +168,6 @@ class Inori:
 
         for cred in self.combos:
             username, _, password = cred.strip().partition(':')
-                        
             try:
                 # NOTE: Attempt to login SQL server.
                 with connect(user = username, password = password, host = cnc_server['ip'], connect_timeout = 5, write_timeout = 5, read_timeout = 5) as conn:
@@ -221,7 +221,7 @@ class Inori:
                         print(f'  {Colors.RED}• {Colors.WHITE}No database found.')
                                 
                                 
-                    self.killer.addr = cnc_server['ip']
+                    self.killer.addr: str = cnc_server['ip']
                     # NOTE: Detect whether the CNC is a Mana V4 source.
                     if self.killer.verify_mana(cnc_server['arch']):
                         print(f'{Colors.LIME}• {MANA} {Colors.WHITE}source detected!')
@@ -246,7 +246,7 @@ class Inori:
             except Exception as e:
                 # NOTE: Prevent multiple attempts of trying different
                 # NOTE: credentials on a server that isnt online.
-                if 'Can\'t connect to MySQL server' in e.args[1]:
+                if tuple(error for error in SQL_ERRORS if error in e.args[1]):
                     break
 
                 continue
