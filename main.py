@@ -219,7 +219,7 @@ class Inori:
                     self.killer.addr = cnc_server['ip']
                     # NOTE: Detect whether the CNC is a Mana V4 source.
                     if self.killer.verify_mana(cnc_server['arch']):
-                        print(f'{Colors.LIME}• {MANA} {Colors.WHITE}source detected!')
+                        print(f'{Colors.LIME}• {MANA} {Colors.WHITE}based source detected!')
                                 
                         if self.kill_enabled:
                             # NOTE: Kill the CNC.
