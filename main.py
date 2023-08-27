@@ -155,9 +155,11 @@ class Inori:
             # NOTE: cycle through entire list.
             for cnc_server in self.ip_list:
                 if cnc_server in self.ip_list:
-                    # NOTE: Entry gets deleted (prevents repetition)
-                    self.ip_list.remove(cnc_server)
-                    continue
+                    try:
+                        # NOTE: Entry gets deleted (prevents repetition)
+                        self.ip_list.remove(cnc_server)
+                    except:
+                        continue
 
                 self.injection(cnc_server)
 
