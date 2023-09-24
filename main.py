@@ -36,7 +36,7 @@ class Inori:
         if not self.threads:
             raise RuntimeError('please use the arg (-t <number of threads>)')
         
-        self.combos:  str  = open('lib/creds.txt').readlines()
+        self.combos: list = open('lib/creds.txt').readlines()
         self.kill_enabled: bool = killer_enabled
         self.killer: ManaKiller = ManaKiller()
 
@@ -50,12 +50,12 @@ class Inori:
     @staticmethod    
     def update_db(entry: dict) -> bool | None: 
         """Update database with our new entry
-            Args:
-                Entry(dict): Entry(pwned cnc server with extra info) 
-                             that is gonna put in database.json
+        Args:
+            Entry(dict): Entry(pwned cnc server with extra info) 
+                         that is gonna put in database.json
 
-            Returns: 
-                bool
+        Returns: 
+            bool
         """
         with open('database.json','r+') as database_file:
             file_data: dict = load(database_file)
@@ -76,8 +76,11 @@ class Inori:
     def urlhaus() -> list[str, ...]: # type: ignore
         """Scrape URLHAUS for Mirai CNC's.
 
-            Return: 
-                list(str, ...): List containing all server IP's from database.
+        Args:
+            None
+
+        Return: 
+            list(str, ...): List containing all server IP's from database.
         """
         all_servers: list = []
         cache:       list = [] # Store IP addresses here (to not get doubles)
@@ -127,11 +130,11 @@ class Inori:
     def fire(self: Inori) -> None:
         """Main function that starts each thread.
 
-            Args:
-                None
+        Args:
+            None
 
-            Return: 
-                None
+        Return: 
+            None
         """
         with ThreadPoolExecutor(max_workers=self.threads) as executor:
             [executor.submit(self.execution) for _ in range(self.threads)]
@@ -169,11 +172,11 @@ class Inori:
         """Inject our custom login into the SQL Server
            if login was a success.
 
-            Args:
-                cnc_server(dict): The entry being updated (Contains: ip, arch, etc...).
+        Args:
+            cnc_server(dict): The entry being updated (Contains: ip, arch, etc...).
             
-            Returns: 
-                Dictionary update results.
+        Returns: 
+            None
         """
 
         for cred in self.combos:
@@ -294,7 +297,7 @@ if __name__  == '__main__':
     print(f'\x1bc{BANNER}')
 
     session: Inori = Inori(
-        threads        = arguments.threads, 
+        threads = arguments.threads, 
         killer_enabled = arguments.killer
     )
     print(f'{Colors.WHITE}Scraped {Colors.LIGHTPINK}{len(session.ip_list)} {Colors.WHITE}IP Addresses')
